@@ -5,7 +5,8 @@ package main
 import (
 	"fmt"
 	"os"
-	"log"
+	"io"
+	"io/ioutil"
 )
 
 func main() {
@@ -15,22 +16,28 @@ func main() {
 	}
 	filename := os.Args[1]
 
-	buf, err := os.ReadFile(filename)
+	src_fp, err := os.Open(filename)
 	if err != nil {
-		log.Fatal(err)
+		fmt.Fprintln(os.Stderr, "Failed to open file...")
+		return
 	}
 
-	fp, err := os.Create("copy.txt")
+	dst_fp, err := os.Create("copy.txt")
 	if err != nil {
-		log.Fatal(err)
+		fmt.Fprintln(os.Stderr, "Failed to create new file...")
+		return
 	}
 
-	_, err = fp.Write(buf)
+	_, err = io.Copy(io.Writer(dst_fp), io.Reader(src_fp))
 	if err != nil {
-		log.Fatal(err)
+		fmt.Fprintln(os.Stderr, "Failed to copy file...")
+		return
 	}
 
-	fmt.Print(string(buf))
-
-	// os.Stdout.Write(data)
+	// コピーしたファイルを出力
+	_, err = io.Copy(os.Stdout, io.Reader(dst_fp))
+	if err != nil {
+		fmt.Fprintln(os.Stderr, "Failed to copy file...")
+		return
+	}
 }
