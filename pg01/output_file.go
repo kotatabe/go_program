@@ -17,16 +17,14 @@ func main() {
 
 	fp, err := os.Open(filename)
 	if err != nil {
-		fmt.Fprintln(os.Stderr, "Open failed")
+		fmt.Fprintln(os.Stderr, "File Open failed")
 		return
 	}
 	defer fp.Close()
 
 	_, err = io.Copy(io.Writer(os.Stdout), io.Reader(fp))
-	// sc := bufio.NewScanner(fp)
-
-	// for sc.Scan() {
-	// 	line := sc.Text()
-	// 	fmt.Println(line)
-	// }
+	if err != nil {
+		fmt.Fprintln(os.Stderr, "File Copy failed")
+		return
+	}
 }
