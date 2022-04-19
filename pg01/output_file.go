@@ -4,7 +4,7 @@ package main
 import (
 	"fmt"
 	"os"
-	"log"
+	"bufio"
 )
 
 func main() {
@@ -15,10 +15,16 @@ func main() {
 	}
 	filename := os.Args[1]
 
-	data, err := os.ReadFile(filename)
+	fp, err := os.Open(filename)
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
+	defer fp.Close()
 
-	os.Stdout.Write(data)
+	sc := bufio.NewScanner(fp)
+
+	for sc.Scan() {
+		line := sc.Text()
+		fmt.Println(line)
+	}
 }
