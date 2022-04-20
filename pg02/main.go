@@ -1,13 +1,25 @@
-// copy file 
-
 package main
 
 import (
 	"fmt"
 	"os"
 	"io"
-	"io/ioutil"
 )
+
+func OutputFile(filename string) {
+	fp, err := os.Open(filename)
+	if err != nil {
+		fmt.Fprintln(os.Stderr, "File Open failed")
+		return
+	}
+	defer fp.Close()
+
+	_, err = io.Copy(os.Stdout, fp)
+	if err != nil {
+		fmt.Fprintln(os.Stderr, "File Copy failed")
+		return
+	}
+}
 
 func main() {
 	if len(os.Args) > 2 || len(os.Args) <= 1 {
@@ -22,22 +34,19 @@ func main() {
 		return
 	}
 
-	dst_fp, err := os.Create("copy.txt")
+	copy_filename := "copy.txt"
+	dst_fp, err := os.Create(copy_filename)
 	if err != nil {
 		fmt.Fprintln(os.Stderr, "Failed to create new file...")
 		return
 	}
 
-	_, err = io.Copy(io.Writer(dst_fp), io.Reader(src_fp))
+	_, err = io.Copy(dst_fp, src_fp)
 	if err != nil {
 		fmt.Fprintln(os.Stderr, "Failed to copy file...")
 		return
 	}
 
 	// コピーしたファイルを出力
-	_, err = io.Copy(os.Stdout, io.Reader(dst_fp))
-	if err != nil {
-		fmt.Fprintln(os.Stderr, "Failed to copy file...")
-		return
-	}
+	OutputFile(copy_filename)
 }
