@@ -22,7 +22,7 @@ func main() {
 	}
 	defer fp.Close()
 
-	_, err = io.Copy(io.Writer(os.Stdout), io.Reader(fp))
+	_, err = io.Copy(os.Stdout, fp)
 	if err != nil {
 		fmt.Fprintln(os.Stderr, "File Copy failed")
 		return
