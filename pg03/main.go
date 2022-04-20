@@ -14,7 +14,7 @@ func main() {
 		return
 	}
 	filename := os.Args[1]
-	
+
 	fp, err := os.Open(filename)
 	if err != nil {
 		fmt.Fprintln(os.Stdout, "Failed to open file...")
