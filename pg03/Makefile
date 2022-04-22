@@ -1,12 +1,12 @@
 NAME = main
-GO_FILES:=$(shell find . -type f -name '*.go' -print)
+GO_FILES:= main.go sumfile/sumfile.go
 TEXT_FILE = sample.txt
 
 build: 
 	go build -o $(NAME) $(GO_FILES)
 
-run: build
-	./$(NAME) $(TEXT_FILE)
+run:
+	go run . $(TEXT_FILE)
 
 clean:
 	rm -f $(NAME)
