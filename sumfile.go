@@ -2,15 +2,15 @@ package main
 
 import (
 	"bufio"
+	"errors"
 	"os"
 	"strconv"
-	"errors"
 )
 
 func SumFile(filename string) (int, error) {
 	fp, err := os.Open(filename)
 	if err != nil {
-		return -1, errors.New("Failed to open file...")
+		return -1, errors.New("failed to open file")
 	}
 	defer fp.Close()
 
@@ -20,7 +20,7 @@ func SumFile(filename string) (int, error) {
 		line := sc.Text()
 		i, err := strconv.Atoi(line)
 		if err != nil {
-			return -1, errors.New("Failed to open file...")
+			return -1, errors.New("failed to open file")
 		}
 		sum += i
 	}
