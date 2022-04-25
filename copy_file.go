@@ -20,7 +20,9 @@ func CopyFile(filename string) {
 		return
 	}
 
-	_, err = io.Copy(dst_fp, src_fp)
+	mw := io.MultiWriter(os.Stdout, dst_fp)
+
+	_, err = io.Copy(mw, src_fp)
 	if err != nil {
 		fmt.Fprintln(os.Stderr, "Failed to copy file...")
 		return

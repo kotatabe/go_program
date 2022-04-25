@@ -2,22 +2,26 @@ package main
 
 import (
 	"fmt"
-	// "github.com/kotatabe/go_program/files"
 	"os"
 )
 
 func main() {
-	if len(os.Args) != 2 {
+	if len(os.Args) != 3 {
 		fmt.Fprintln(os.Stderr, "Invalid argument...")
 		return
 	}
-	filename := os.Args[1]
+	filename1 := os.Args[1]
+	filename2 := os.Args[2]
+	fmt.Println("==== output file =====\n")
 
-	// OutputFile(filename)
+	OutputFile(filename1)
 
-	// CopyFile(filename)
-
-	sum, err := SumFile(filename)
+	fmt.Println("\n\n==== copy file =====\n")
+	
+	CopyFile(filename1)
+	
+	fmt.Println("\n\n==== sum =====\n")
+	sum, err := SumFile(filename2)
 	if err != nil {
 		fmt.Errorf("Error: %w", err)
 		return
