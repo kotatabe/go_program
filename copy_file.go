@@ -2,17 +2,11 @@ package main
 
 import (
 	"fmt"
-	"os"
 	"io"
+	"os"
 )
 
-func main() {
-	if len(os.Args) > 2 || len(os.Args) <= 1 {
-		fmt.Fprintln(os.Stderr, "Invalid argument...")
-		return
-	}
-	filename := os.Args[1]
-
+func CopyFile(filename string) {
 	src_fp, err := os.Open(filename)
 	if err != nil {
 		fmt.Fprintln(os.Stderr, "Failed to open file...")
@@ -31,7 +25,4 @@ func main() {
 		fmt.Fprintln(os.Stderr, "Failed to copy file...")
 		return
 	}
-
-	// コピーしたファイルを出力
-	OutputFile(copy_filename)
 }
