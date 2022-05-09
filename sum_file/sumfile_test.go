@@ -42,10 +42,18 @@ func TestSumFile(t *testing.T) {
 			want:    0,
 			wantErr: false,
 		},
+		{
+			name:    "error when the argument file is not exist",
+			args:    args{filename: "../text/notexistfile"},
+			want:    -1,
+			wantErr: true,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			_, tt.want = CreateRandFile()
+			if tt.name == "random numbers, random lines" {
+				_, tt.want = CreateRandFile()
+			}
 			got, err := SumFile(tt.args.filename)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("SumFile() error = %v, wantErr %v", err, tt.wantErr)

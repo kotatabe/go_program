@@ -2,15 +2,18 @@ package sumfile
 
 import (
 	"bufio"
-	"errors"
+	"fmt"
 	"os"
 	"strconv"
+
+	"golang.org/x/xerrors"
 )
 
 func SumFile(filename string) (int, error) {
 	fp, err := os.Open(filename)
 	if err != nil {
-		return -1, errors.New("failed to open file")
+		fmt.Printf("%+v\n", xerrors.New("failed to open file"))
+		return -1, err
 	}
 	defer fp.Close()
 
@@ -20,7 +23,8 @@ func SumFile(filename string) (int, error) {
 		line := sc.Text()
 		i, err := strconv.Atoi(line)
 		if err != nil {
-			return -1, errors.New("failed to open file")
+			fmt.Printf("%+v\n", xerrors.New("failed to open file"))
+			return -1, err
 		}
 		sum += i
 	}

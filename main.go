@@ -1,38 +1,41 @@
 package main
 
 import (
+	"flag"
 	"fmt"
-	// "io"
-	// "math/rand"
-	"github.com/kotatabe/go_program/copy_file"
-	"github.com/kotatabe/go_program/output_file"
-	"github.com/kotatabe/go_program/sum_file"
 	"os"
+
+	copy "github.com/kotatabe/go_program/copy_file"
+	output "github.com/kotatabe/go_program/output_file"
+	sumfile "github.com/kotatabe/go_program/sum_file"
+	"golang.org/x/xerrors"
 )
 
 func main() {
+	o := flag.Bool("o", false, "output flag")
+	c := flag.Bool("c", false, "copyfile flag")
+	s := flag.Bool("sum", false, "sumfile flag")
+	flag.Parse()
 	if len(os.Args) != 3 {
-		fmt.Fprintln(os.Stderr, "Invalid argument...")
+		fmt.Printf("%+v\n", xerrors.New("invalid argument"))
 		return
 	}
 	filename := os.Args[2]
-	switch os.Args[1] {
-		case "1":
-			fmt.Println("==== output file =====")
-			output.OutputFile(filename)
-		case "2":
-			fmt.Println("====  copy file  =====")
-			copy.CopyFile(filename)		
-		case "3":
-			fmt.Println("====  sum file   =====")
-			sum, err := sumfile.SumFile(filename)
-			if err != nil {
-				fmt.Errorf("Error: %w", err)
-				return
-			}
-			fmt.Println(sum)
-		default:
-			fmt.Fprintln(os.Stderr, "Invalid argument...")
+
+	if *o {
+		fmt.Println("==== output file =====")
+		output.OutputFile(filename)
+	}
+	if *c {
+		fmt.Println("====  copy file  =====")
+		copy.CopyFile(filename)
+	}
+	if *s {
+		fmt.Println("====  sum file   =====")
+		sum, err := sumfile.SumFile(filename)
+		if err != nil {
 			return
+		}
+		fmt.Println(sum)
 	}
 }

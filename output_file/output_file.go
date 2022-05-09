@@ -4,41 +4,21 @@ import (
 	"fmt"
 	"io"
 	"os"
+
+	"golang.org/x/xerrors"
 )
 
 func OutputFile(filename string) {
 	fp, err := os.Open(filename)
 	if err != nil {
-		fmt.Fprintln(os.Stderr, "File Open failed")
+		fmt.Printf("%+v\n", xerrors.New("file open failed"))
 		return
 	}
 	defer fp.Close()
 
 	_, err = io.Copy(os.Stdout, fp)
 	if err != nil {
-		fmt.Fprintln(os.Stderr, "File Copy failed")
+		fmt.Printf("%+v\n", xerrors.New("file copy failed"))
 		return
 	}
 }
-
-// func main() {
-
-// 	if len(os.Args) > 2 || len(os.Args) <= 1 {
-// 		fmt.Fprintln(os.Stderr, "Invalid argument")
-// 		return
-// 	}
-// 	filename := os.Args[1]
-
-// 	fp, err := os.Open(filename)
-// 	if err != nil {
-// 		fmt.Fprintln(os.Stderr, "File Open failed")
-// 		return
-// 	}
-// 	defer fp.Close()
-
-// 	_, err = io.Copy(os.Stdout, fp)
-// 	if err != nil {
-// 		fmt.Fprintln(os.Stderr, "File Copy failed")
-// 		return
-// 	}
-// }
