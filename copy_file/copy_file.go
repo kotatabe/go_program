@@ -1,32 +1,29 @@
 package copy
 
 import (
-	"fmt"
 	"io"
 	"os"
 
 	"golang.org/x/xerrors"
 )
 
-func CopyFile(filename string) {
+func CopyFile(filename string) error {
 	src_fp, err := os.Open(filename)
 	if err != nil {
-		fmt.Printf("%+v\n", xerrors.New("failed to open file"))
-		return
+		return xerrors.New("failed to open file")
 	}
 
 	copy_filename := "copy.txt"
 	dst_fp, err := os.Create(copy_filename)
 	if err != nil {
-		fmt.Printf("%+v\n", xerrors.New("failed to create new file"))
-		return
+		return xerrors.New("failed to create new file")
 	}
 
 	mw := io.MultiWriter(os.Stdout, dst_fp)
 
 	_, err = io.Copy(mw, src_fp)
 	if err != nil {
-		fmt.Printf("%+v\n", xerrors.New("failed to copy file"))
-		return
+		return xerrors.New("failed to copy file")
 	}
+	return nil
 }

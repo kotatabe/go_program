@@ -2,7 +2,6 @@ package sumfile
 
 import (
 	"bufio"
-	"fmt"
 	"os"
 	"strconv"
 
@@ -12,8 +11,7 @@ import (
 func SumFile(filename string) (int, error) {
 	fp, err := os.Open(filename)
 	if err != nil {
-		fmt.Printf("%+v\n", xerrors.New("failed to open file"))
-		return -1, err
+		return -1, xerrors.New("failed to open file")
 	}
 	defer fp.Close()
 
@@ -23,8 +21,7 @@ func SumFile(filename string) (int, error) {
 		line := sc.Text()
 		i, err := strconv.Atoi(line)
 		if err != nil {
-			fmt.Printf("%+v\n", xerrors.New("failed to open file"))
-			return -1, err
+			return -1, xerrors.New("failed to open file")
 		}
 		sum += i
 	}

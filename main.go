@@ -24,17 +24,23 @@ func main() {
 
 	if *o {
 		fmt.Println("==== output file =====")
-		output.OutputFile(filename)
+		err := output.OutputFile(filename)
+		if err != nil {
+			fmt.Printf("%+v\n", xerrors.Errorf(": %w", err))
+		}
 	}
 	if *c {
 		fmt.Println("====  copy file  =====")
-		copy.CopyFile(filename)
+		err := copy.CopyFile(filename)
+		if err != nil {
+			fmt.Printf("%+v\n", xerrors.Errorf(": %w", err))
+		}
 	}
 	if *s {
 		fmt.Println("====  sum file   =====")
 		sum, err := sumfile.SumFile(filename)
 		if err != nil {
-			return
+			fmt.Printf("%+v\n", xerrors.Errorf(": %w", err))
 		}
 		fmt.Println(sum)
 	}
